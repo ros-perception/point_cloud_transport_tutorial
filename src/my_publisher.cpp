@@ -29,6 +29,9 @@
 
 
 #include <iostream>
+#include <filesystem>
+#include <memory>
+#include <string>
 
 // for reading rosbag
 #include <ament_index_cpp/get_package_share_directory.hpp>
@@ -60,7 +63,7 @@ int main(int argc, char ** argv)
     bag_file = argv[1];
   }
 
-  if (!rcpputils::fs::exists(bag_file)) {
+  if (!std::filesystem::exists(bag_file)) {
     std::cout << "Not able to open file [" << bag_file << "]" << '\n';
     return -1;
   }

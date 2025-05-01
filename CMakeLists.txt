@@ -16,7 +16,6 @@ find_package(ament_cmake_ros REQUIRED)
 
 find_package(point_cloud_transport REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(rcpputils REQUIRED)
 find_package(rosbag2_cpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
@@ -44,7 +43,6 @@ target_link_libraries(publisher_test PUBLIC
   rosbag2_cpp::rosbag2_cpp
   sensor_msgs::sensor_msgs_library
 )
-
 
 # subscriber
 add_executable(subscriber_test src/my_subscriber.cpp)
