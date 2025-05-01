@@ -26,15 +26,34 @@ include_directories(
 
 # encoder
 add_executable(encoder_test src/my_encoder.cpp)
-ament_target_dependencies(encoder_test point_cloud_transport rosbag2_cpp sensor_msgs)
+
+target_link_libraries(encoder_test PUBLIC
+  ${sensor_msgs_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rosbag2_cpp::rosbag2_cpp
+  sensor_msgs::sensor_msgs_library
+)
+
 
 # publisher
 add_executable(publisher_test src/my_publisher.cpp)
-ament_target_dependencies(publisher_test point_cloud_transport rclcpp rcpputils rosbag2_cpp sensor_msgs)
+target_link_libraries(publisher_test PUBLIC
+  ${sensor_msgs_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  rosbag2_cpp::rosbag2_cpp
+  sensor_msgs::sensor_msgs_library
+)
+
 
 # subscriber
 add_executable(subscriber_test src/my_subscriber.cpp)
-ament_target_dependencies(subscriber_test point_cloud_transport rclcpp sensor_msgs)
+target_link_libraries(subscriber_test PUBLIC
+  ${sensor_msgs_TARGETS}
+  point_cloud_transport::point_cloud_transport
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
+)
 
 # Install executables
 install(
