@@ -10,8 +10,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - docker-image: "ubuntu:24.04"
-            ros-distro: "rolling"
+          - docker-image: "ubuntu:22.04"
+            ros-distro: "humble"
     container:
       image: ${{ matrix.docker-image }}
     steps:
