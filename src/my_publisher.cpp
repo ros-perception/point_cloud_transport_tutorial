@@ -51,7 +51,7 @@ int main(int argc, char ** argv)
 
   auto node = std::make_shared<rclcpp::Node>("point_cloud_publisher");
 
-  point_cloud_transport::PointCloudTransport pct(node);
+  point_cloud_transport::PointCloudTransport pct(*node);
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
   const std::string bagged_cloud_topic = "/point_cloud";
