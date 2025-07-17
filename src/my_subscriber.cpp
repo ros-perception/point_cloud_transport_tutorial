@@ -37,7 +37,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   auto node = std::make_shared<rclcpp::Node>("point_cloud_subscriber");
 
-  point_cloud_transport::PointCloudTransport pct(node);
+  point_cloud_transport::PointCloudTransport pct(*node);
   point_cloud_transport::Subscriber pct_sub = pct.subscribe(
     "pct/point_cloud", 100,
     [node](const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)
