@@ -2,6 +2,11 @@
 Changelog for package point_cloud_transport_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.4 (2025-07-25)
+-------------------
+* Removed deprecation warnings (`#16 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/16>`_)
+* Contributors: Alejandro Hernández Cordero
+
 0.0.3 (2025-05-21)
 -------------------
 * Fixed CI (`#12 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/12>`_)
