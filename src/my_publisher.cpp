@@ -51,6 +51,9 @@ int main(int argc, char ** argv)
 
   auto node = std::make_shared<rclcpp::Node>("point_cloud_publisher");
 
+  rclcpp::executors::SingleThreadedExecutor executor;
+  executor.add_node(node);
+
   point_cloud_transport::PointCloudTransport pct(*node);
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
@@ -93,7 +96,7 @@ int main(int argc, char ** argv)
       cloud_serialization.deserialize_message(&extracted_serialized_msg, &cloud_msg);
       // publish the message
       pub.publish(cloud_msg);
-      rclcpp::spin_some(node);
+      executor.spin_some();
       rclcpp::sleep_for(std::chrono::milliseconds(100));
     }
   }
