@@ -2,6 +2,11 @@
 Changelog for package point_cloud_transport_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.6 (2026-01-07)
+-------------------
+* Updated deprecated ament_index_cpp API (`#18 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/18>`_)
+* Contributors: Alejandro Hernández Cordero
+
 0.0.5 (2025-09-18)
 -------------------
 * Removed rclcpp::spin_some deprecation warning (`#17 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/17>`_)
