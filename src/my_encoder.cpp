@@ -48,13 +48,14 @@ int main(int /*argc*/, char ** /*argv*/)
   RCLCPP_INFO(logger_, "Using transport: %s", transport.c_str());
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  const std::string shared_directory = ament_index_cpp::get_package_share_directory(
-    "point_cloud_transport_tutorial");
-  const std::string bag_file = shared_directory + "/resources/rosbag2_2023_08_05-16_08_51";
+  std::filesystem::path shared_directory;
+  ament_index_cpp::get_package_share_directory("point_cloud_transport_tutorial", shared_directory);
+  const std::filesystem::path bag_file = shared_directory / "resources" /
+    "rosbag2_2023_08_05-16_08_51";
 
   // boiler-plate to tell rosbag2 how to read our bag
   rosbag2_storage::StorageOptions storage_options;
-  storage_options.uri = bag_file;
+  storage_options.uri = bag_file.string();
   storage_options.storage_id = "mcap";
   rosbag2_cpp::ConverterOptions converter_options;
   converter_options.input_serialization_format = "cdr";
