@@ -1,7 +1,7 @@
 <package format="3">
   <name>point_cloud_transport_tutorial</name>
 
-  <version>0.0.5</version>
+  <version>0.0.6</version>
 
   <description>Tutorial for point_cloud_transport.</description>
 
