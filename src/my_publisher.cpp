@@ -58,24 +58,27 @@ int main(int argc, char ** argv)
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  const std::string shared_directory = ament_index_cpp::get_package_share_directory(
-    "point_cloud_transport_tutorial");
-  std::string bag_file = shared_directory + "/resources/rosbag2_2023_08_05-16_08_51";
+  std::filesystem::path shared_directory;
+  ament_index_cpp::get_package_share_directory(
+    "point_cloud_transport_tutorial",
+    shared_directory);
+  std::filesystem::path bag_file = shared_directory / "resources" /
+    "rosbag2_2023_08_05-16_08_51";
 
   if (argc > 1) {
-    bag_file = argv[1];
+    bag_file = std::filesystem::path(argv[1]);
   }
 
   if (!std::filesystem::exists(bag_file)) {
-    std::cout << "Not able to open file [" << bag_file << "]" << '\n';
+    std::cout << "Not able to open file [" << bag_file.string() << "]" << '\n';
     return -1;
   }
 
-  std::cout << "Reading [" << bag_file << "] bagfile" << '\n';
+  std::cout << "Reading [" << bag_file.string() << "] bagfile" << '\n';
 
   // boiler-plate to tell rosbag2 how to read our bag
   rosbag2_storage::StorageOptions storage_options;
-  storage_options.uri = bag_file;
+  storage_options.uri = bag_file.string();
   storage_options.storage_id = "mcap";
   rosbag2_cpp::ConverterOptions converter_options;
   converter_options.input_serialization_format = "cdr";
