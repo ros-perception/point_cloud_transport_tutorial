@@ -2,6 +2,9 @@
 Changelog for package point_cloud_transport_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.7 (2026-01-19)
+-------------------
+
 0.0.6 (2026-01-07)
 -------------------
 * Updated deprecated ament_index_cpp API (`#18 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/18>`_)
