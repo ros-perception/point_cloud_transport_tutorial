@@ -2,6 +2,12 @@
 Changelog for package point_cloud_transport_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.8 (2026-01-20)
+-------------------
+* Fixed warning (`#20 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/20>`_)
+* Cleanup bsd 3 clause license usage (`#19 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/19>`_)
+* Contributors: Alejandro Hernández Cordero
+
 0.0.7 (2026-01-19)
 -------------------
 
