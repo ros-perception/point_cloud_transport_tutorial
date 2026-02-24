@@ -38,7 +38,7 @@ Take a look at my_publisher.cpp
 #include <point_cloud_transport/point_cloud_transport.hpp>
 
 // for reading rosbag
-#include <ament_index_cpp/get_package_share_directory.hpp>
+#include <ament_index_cpp/get_package_share_path.hpp>
 #include <rclcpp/serialization.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rosbag2_cpp/reader.hpp>
@@ -59,7 +59,7 @@ int main(int argc, char ** argv)
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  const std::string shared_directory = ament_index_cpp::get_package_share_directory(
+  const std::string shared_directory = ament_index_cpp::get_package_share_path(
     "point_cloud_transport_tutorial");
   const std::string bag_file = shared_directory + "/resources/rosbag2_2023_08_05-16_08_51";
 

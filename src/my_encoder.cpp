@@ -27,7 +27,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <ament_index_cpp/get_package_share_directory.hpp>
+#include <ament_index_cpp/get_package_share_path.hpp>
 #include <rclcpp/serialization.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rosbag2_cpp/reader.hpp>
@@ -48,9 +48,9 @@ int main(int /*argc*/, char ** /*argv*/)
   RCLCPP_INFO(logger_, "Using transport: %s", transport.c_str());
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  std::filesystem::path shared_directory;
-  ament_index_cpp::get_package_share_directory("point_cloud_transport_tutorial", shared_directory);
-  const std::filesystem::path bag_file = shared_directory / "resources" /
+  const std::filesystem::path bag_file =
+    ament_index_cpp::get_package_share_path("point_cloud_transport_tutorial") /
+    "resources" /
     "rosbag2_2023_08_05-16_08_51";
 
   // boiler-plate to tell rosbag2 how to read our bag
