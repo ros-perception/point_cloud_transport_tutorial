@@ -34,7 +34,7 @@
 #include <string>
 
 // for reading rosbag
-#include <ament_index_cpp/get_package_share_directory.hpp>
+#include <ament_index_cpp/get_package_share_path.hpp>
 
 #include <point_cloud_transport/point_cloud_transport.hpp>
 #include <rclcpp/serialization.hpp>
@@ -59,10 +59,8 @@ int main(int argc, char ** argv)
 
   const std::string bagged_cloud_topic = "/point_cloud";
   std::filesystem::path shared_directory;
-  ament_index_cpp::get_package_share_directory(
-    "point_cloud_transport_tutorial",
-    shared_directory);
-  std::filesystem::path bag_file = shared_directory / "resources" /
+  std::filesystem::path bag_file =
+    ament_index_cpp::get_package_share_path("point_cloud_transport_tutorial") / "resources" /
     "rosbag2_2023_08_05-16_08_51";
 
   if (argc > 1) {
