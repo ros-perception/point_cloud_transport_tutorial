@@ -2,6 +2,12 @@
 Changelog for package point_cloud_transport_tutorial
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+0.0.9 (2026-03-17)
+------------------
+* Remove rosbag2_py deprecation (`#22 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/22>`_)
+* Use get_package_share_path (`#21 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/21>`_)
+* Contributors: Alejandro Hernández Cordero
+
 0.0.8 (2026-01-20)
 -------------------
 * Fixed warning (`#20 <https://github.com/ros-perception/point_cloud_transport_tutorial/issues/20>`_)
