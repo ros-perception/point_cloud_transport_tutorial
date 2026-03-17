@@ -75,7 +75,7 @@ if __name__ == '__main__':
 
     try:
         while reader.has_next():
-            (topic, data, t) = reader.read_next()
+            (topic, data, t, _) = reader.read_next_ext()
             msg_type = get_message(type_map[topic])
             msg = deserialize_message(data, msg_type)
             pub.publish(pointCloud2ToString(msg))
