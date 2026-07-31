@@ -28,8 +28,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 
+#include <memory>
+
 #include <point_cloud_transport/point_cloud_transport.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/executors.hpp>
+#include <rclcpp/logging.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/utilities.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 int main(int argc, char ** argv)

@@ -28,6 +28,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 
 
+#include <chrono>
 #include <iostream>
 #include <filesystem>
 #include <memory>
@@ -37,12 +38,14 @@
 #include <ament_index_cpp/get_package_share_path.hpp>
 
 #include <point_cloud_transport/point_cloud_transport.hpp>
+#include <rclcpp/executors/single_threaded_executor.hpp>
+#include <rclcpp/node.hpp>
 #include <rclcpp/serialization.hpp>
-#include <rclcpp/rclcpp.hpp>
-#include <rcpputils/filesystem_helper.hpp>
+#include <rclcpp/serialized_message.hpp>
+#include <rclcpp/utilities.hpp>
 #include <rosbag2_cpp/reader.hpp>
 #include <rosbag2_storage/storage_options.hpp>
-#include <rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp>
+#include <rosbag2_cpp/converter_options.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 int main(int argc, char ** argv)
@@ -58,7 +61,6 @@ int main(int argc, char ** argv)
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  std::filesystem::path shared_directory;
   std::filesystem::path bag_file =
     ament_index_cpp::get_package_share_path("point_cloud_transport_tutorial") / "resources" /
     "rosbag2_2023_08_05-16_08_51";
