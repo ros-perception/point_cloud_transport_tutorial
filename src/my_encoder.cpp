@@ -27,13 +27,19 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#include <filesystem>
+#include <string>
+
 #include <ament_index_cpp/get_package_share_path.hpp>
+#include <rclcpp/logger.hpp>
+#include <rclcpp/logging.hpp>
 #include <rclcpp/serialization.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/serialized_message.hpp>
 #include <rosbag2_cpp/reader.hpp>
 #include <rosbag2_storage/storage_options.hpp>
 #include <rosbag2_cpp/converter_options.hpp>
 #include <rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp>
+#include <sensor_msgs/msg/point_cloud2.hpp>
 
 #include <point_cloud_transport/point_cloud_codec.hpp>
 

@@ -35,15 +35,24 @@ $ colcon build --merge-install --event-handlers console_direct+
 ## Code of the Publisher
 Take a look at my_publisher.cpp
 ```cpp
-#include <point_cloud_transport/point_cloud_transport.hpp>
+#include <chrono>
+#include <iostream>
+#include <filesystem>
+#include <memory>
+#include <string>
 
 // for reading rosbag
 #include <ament_index_cpp/get_package_share_path.hpp>
+
+#include <point_cloud_transport/point_cloud_transport.hpp>
+#include <rclcpp/executors/single_threaded_executor.hpp>
+#include <rclcpp/node.hpp>
 #include <rclcpp/serialization.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/serialized_message.hpp>
+#include <rclcpp/utilities.hpp>
 #include <rosbag2_cpp/reader.hpp>
-#include <rosbag2_cpp/storage_options.hpp>
-#include <rosbag2_cpp/converter_interfaces/serialization_format_converter.hpp>
+#include <rosbag2_storage/storage_options.hpp>
+#include <rosbag2_cpp/converter_options.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 int main(int argc, char ** argv)
@@ -55,17 +64,28 @@ int main(int argc, char ** argv)
   rclcpp::executors::SingleThreadedExecutor executor;
   executor.add_node(node);
 
-  point_cloud_transport::PointCloudTransport pct(node);
+  point_cloud_transport::PointCloudTransport pct(*node);
   point_cloud_transport::Publisher pub = pct.advertise("pct/point_cloud", 100);
 
   const std::string bagged_cloud_topic = "/point_cloud";
-  const std::string shared_directory = ament_index_cpp::get_package_share_path(
-    "point_cloud_transport_tutorial");
-  const std::string bag_file = shared_directory + "/resources/rosbag2_2023_08_05-16_08_51";
+  std::filesystem::path bag_file =
+    ament_index_cpp::get_package_share_path("point_cloud_transport_tutorial") / "resources" /
+    "rosbag2_2023_08_05-16_08_51";
+
+  if (argc > 1) {
+    bag_file = std::filesystem::path(argv[1]);
+  }
+
+  if (!std::filesystem::exists(bag_file)) {
+    std::cout << "Not able to open file [" << bag_file.string() << "]" << '\n';
+    return -1;
+  }
+
+  std::cout << "Reading [" << bag_file.string() << "] bagfile" << '\n';
 
   // boiler-plate to tell rosbag2 how to read our bag
   rosbag2_storage::StorageOptions storage_options;
-  storage_options.uri = bag_file;
+  storage_options.uri = bag_file.string();
   storage_options.storage_id = "mcap";
   rosbag2_cpp::ConverterOptions converter_options;
   converter_options.input_serialization_format = "cdr";
@@ -82,7 +102,7 @@ int main(int argc, char ** argv)
     auto serialized_message = reader.read_next();
     rclcpp::SerializedMessage extracted_serialized_msg(*serialized_message->serialized_data);
     if (serialized_message->topic_name == bagged_cloud_topic) {
-      // deserialize and convert to  message
+      // deserialize and convert to ros2 message
       cloud_serialization.deserialize_message(&extracted_serialized_msg, &cloud_msg);
       // publish the message
       pub.publish(cloud_msg);
@@ -108,7 +128,7 @@ Header for including [<point_cloud_transport>](https://github.com/ros-perception
 Creates *PointCloudTransport* instance and initializes it with our *Node* shared pointer. Methods of *PointCloudTransport* can later be used to create point cloud publishers and subscribers similar to how methods of *Node* are used to create generic publishers and subscribers.
 
 ```cpp
-point_cloud_transport::PointCloudTransport pct(node);
+point_cloud_transport::PointCloudTransport pct(*node);
 ```
 
 Uses *PointCloudTransport* method to create a publisher on base topic *"pct/point_cloud"*. Depending on whether more plugins are built, additional (per-plugin) topics derived from the base topic may also be advertised. The second argument is the size of our publishing queue.
@@ -143,8 +163,13 @@ In this section, we'll see how to create a subscriber node, which receives `Poin
 Take a look at [my_subscriber.cpp](src/my_subscriber.cpp):
 
 ```cpp
+#include <memory>
+
 #include <point_cloud_transport/point_cloud_transport.hpp>
-#include <rclcpp/rclcpp.hpp>
+#include <rclcpp/executors.hpp>
+#include <rclcpp/logging.hpp>
+#include <rclcpp/node.hpp>
+#include <rclcpp/utilities.hpp>
 #include <sensor_msgs/msg/point_cloud2.hpp>
 
 int main(int argc, char ** argv)
@@ -152,7 +177,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
   auto node = std::make_shared<rclcpp::Node>("point_cloud_subscriber");
 
-  point_cloud_transport::PointCloudTransport pct(node);
+  point_cloud_transport::PointCloudTransport pct(*node);
   point_cloud_transport::Subscriber pct_sub = pct.subscribe(
     "pct/point_cloud", 100,
     [node](const sensor_msgs::msg::PointCloud2::ConstSharedPtr & msg)
@@ -191,7 +216,7 @@ auto node = rclcpp::Node::make_shared("point_cloud_subscriber");
 Creates *PointCloudTransport* instance and initializes it with our *Node*. Methods of *PointCloudTransport* can later be used to create point cloud publishers and subscribers similar to how methods of *NodeHandle* are used to create generic publishers and subscribers.
 
 ```cpp
-point_cloud_transport::PointCloudTransport pct(node);
+point_cloud_transport::PointCloudTransport pct(*node);
 ```
 
 Uses *PointCloudTransport* method to create a subscriber on base topic *"pct/point_cloud"*. The second argument is the size of our subscribing queue. The third argument tells the subscriber to execute lambda function whenever a message is received.
